@@ -4,7 +4,7 @@
 
 <ul>
   <%@user.characters.each do |char| %>
-  <li>Name: <%=char.name%> - Ability: <%=char.ability%></li>
+  <li>Name: <%=char.name%> - Ability: <%=char.ability%> - <a href="/characters/edit/<%=char.id%>">Edit</a></li>
   <%end%>
 </ul>
 

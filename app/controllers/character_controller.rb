@@ -24,10 +24,45 @@ class CharacterController < ApplicationController
         current_user.characters << @character
         @character.save
       end
+      redirect "/characters/index"
+    else
+      redirect "/users/login"
+    end
+  end
+
+  get '/characters/edit/:id' do
+    if logged_in?
+      @character = Character.find(params[:id])
+      erb :'/characters/edit'
+    else
+      redirect "/users/login"
+    end
+  end
+
+  post '/characters/edit/:id' do
+    if logged_in?
+      @character = Character.find(params[:id])
+      if params[:name] != ""
+        @character.name = params[:name]
+        @character.save
+      end
+      if params[:ability] != ""
+        @character.ability = params[:ability]
+        @character.save
+      end
+      redirect "/characters/index"
+    else
+      redirect "/users/login"
+    end
+  end
+
+  delete '/characters/delete/:id' do
+    if logged_in?
+      @character = Character.find(params[:id])
+      @character.delete
+      redirect "/characters/index"
     else
       redirect "/users/login"
     end 
   end
-
-
 end
