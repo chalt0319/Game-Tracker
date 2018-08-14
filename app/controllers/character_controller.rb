@@ -20,22 +20,24 @@ class CharacterController < ApplicationController
   post '/characters/new' do
     if logged_in?
       if params[:name] != "" && params[:abilities].any? {|x| x != ""}
-        @character = Character.find_or_create_by(name: params[:name])
-         params[:abilities].each do |ability_name|
-           if ability_name != ""
-             @ability = Ability.new(name: ability_name)
-             @character.abilities << @ability
+        if !current_user.characters.find_by(name: params[:name])
+          @character = Character.new(name: params[:name])
+           params[:abilities].each do |ability_name|
+             if ability_name != ""
+               @ability = Ability.new(name: ability_name)
+               if !@character.abilities.include?(@ability.name)
+                 @character.abilities << @ability
+              end
+             end
            end
-         end
+         current_user.characters << @character
+         @character.save
+       else
+         flash[:message] = ">>Character already exists<<"
+         redirect "/characters/new"
+       end
       else
         flash[:message] = ">>Please fill out all fields (at least one ability is needed)<<"
-        redirect "/characters/new"
-      end
-      if !current_user.characters.include?(@character.name)
-        current_user.characters << @character
-        @character.save
-      else
-        flash[:message] = ">>Character already exists<<"
         redirect "/characters/new"
       end
       redirect "/characters/index"
@@ -93,4 +95,5 @@ class CharacterController < ApplicationController
       redirect "/users/login"
     end
   end
+
 end
