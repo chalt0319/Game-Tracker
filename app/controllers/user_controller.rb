@@ -5,9 +5,15 @@ class UserController < ApplicationController
   end
 
   post '/new' do
-    @user = User.new(params)
+    if User.find_by(username: params[:username])
+      flash[:message] = "Username is already taken. Please choose another Username."
+      redirect "/users/new"
+    else
+      @user = User.new(params)
+    end
     if params[:username] != "" && params[:password] != "" && params[:email] != ""
       @user.save
+      session[:user_id] = @user.id
       redirect "/users/#{@user.id}"
     else
       flash[:message] = "Hmm, something isn't adding up. Please try again."
@@ -23,8 +29,29 @@ class UserController < ApplicationController
     end
   end
 
-  get '/users/:id' do
-    @user = User.find(params[:id])
-    erb :'/users/index'
+  post '/login' do
+    @user = User.find_by(username: params[:username])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      redirect "/users/#{current_user.id}"
+    else
+      flash[:message] = ">>Username and Password do not match<<"
+      redirect "/users/login"
+    end
   end
+
+  get '/users/logout' do
+    session.clear
+    redirect "/"
+  end
+
+  get '/users/:id' do
+    if logged_in?
+      @user = current_user
+      erb :'/users/index'
+    else
+      redirect "/users/login"
+    end
+  end
+
 end
