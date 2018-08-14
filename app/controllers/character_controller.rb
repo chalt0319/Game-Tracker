@@ -19,10 +19,18 @@ class CharacterController < ApplicationController
 
   post '/characters/new' do
     if logged_in?
-      @character = Character.find_or_create_by(params)
-      if !current_user.characters.include?(@character)
+      if params[:name] != "" && params[:ability] != ""
+        @character = Character.find_or_create_by(params)
+      else
+        flash[:message] = ">>Please fill out all fields<<"
+        redirect "/characters/new"
+      end
+      if !Character.find_by(params)
         current_user.characters << @character
         @character.save
+      else
+        flash[:message] = ">>Character already exists<<"
+        redirect "/characters/new"
       end
       redirect "/characters/index"
     else
@@ -63,6 +71,6 @@ class CharacterController < ApplicationController
       redirect "/characters/index"
     else
       redirect "/users/login"
-    end 
+    end
   end
 end
