@@ -4,7 +4,7 @@
 <form action="/characters/edit/<%=@character.id%>" method="post">
   <p>Name: <input type="text" name="name"></p>
   <p>Please uncheck any that you need to change:</p>
-  <%=@character.abilities.each do |ability|%>
+  <%@character.abilities.each do |ability|%>
   <p><input type="checkbox" name="ability_ids[]" value="<%=ability.id%>" checked><%=ability.name%></p>
   <%end%>
   <p>Optional additional abilities:</p>

@@ -23,7 +23,7 @@ class CharacterController < ApplicationController
         @character = Character.find_or_create_by(name: params[:name])
          params[:abilities].each do |ability_name|
            if ability_name != ""
-             @ability = Ability.find_or_create_by(name: ability_name)
+             @ability = Ability.new(name: ability_name)
              @character.abilities << @ability
            end
          end
@@ -73,11 +73,11 @@ class CharacterController < ApplicationController
       if params[:abilities].any? {|x| x != ""}
         params[:abilities].each do |ability_name|
           if ability_name != ""
-            @ability = Ability.find_or_create_by(name: ability_name)
+            @ability = Ability.new(name: ability_name)
             @character.abilities << @ability
           end
         end
-      end 
+      end
       redirect "/characters/index"
     else
       redirect "/users/login"
