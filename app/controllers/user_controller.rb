@@ -15,6 +15,14 @@ class UserController < ApplicationController
     end
   end
 
+  get '/users/login' do
+    if logged_in?
+      redirect "/users/#{current_user.id}"
+    else
+      erb :'/users/login'
+    end
+  end
+
   get '/users/:id' do
     @user = User.find(params[:id])
     erb :'/users/index'
