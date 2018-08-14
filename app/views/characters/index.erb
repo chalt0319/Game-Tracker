@@ -2,11 +2,18 @@
 
 <h2>Your Characters:</h2>
 
-<ul>
+<ol>
   <%@user.characters.each do |char| %>
-  <li>Name: <%=char.name%> - Ability: <%=char.ability%> - <a href="/characters/edit/<%=char.id%>">Edit</a></li>
+  <li><%=char.name%> - <a href="/characters/edit/<%=char.id%>">Edit</a></l>
+
+      <%char.abilities.each do |ability|%>
+      <ul>
+      <li><%=ability.name%></li>
+      </ul>
+      <%end%>
+
   <%end%>
-</ul>
+</ol>
 
 <a href="/characters/new">Create New Character</a><br>
 <a href="/users/<%=@user.id%>">Home Page</a><br>

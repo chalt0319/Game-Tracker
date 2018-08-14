@@ -3,7 +3,14 @@
 <h3>Please fill in what you would like to change:</h3>
 <form action="/characters/edit/<%=@character.id%>" method="post">
   <p>Name: <input type="text" name="name"></p>
-  <p>Ability: <input type="text" name="ability"></p>
+  <p>Please uncheck any that you need to change:</p>
+  <%=@character.abilities.each do |ability|%>
+  <p><input type="checkbox" name="ability_ids[]" value="<%=ability.id%>" checked><%=ability.name%></p>
+  <%end%>
+  <p>Optional additional abilities:</p>
+  <p><input type="text" name="abilities[]"></p>
+  <p><input type="text" name="abilities[]"></p>
+  <p><input type="text" name="abilities[]"></p>
   <input type="submit" value="Edit Character">
 </form>
 <br>

@@ -19,13 +19,19 @@ class CharacterController < ApplicationController
 
   post '/characters/new' do
     if logged_in?
-      if params[:name] != "" && params[:ability] != ""
-        @character = Character.find_or_create_by(params)
+      if params[:name] != "" && params[:abilities].any? {|x| x != ""}
+        @character = Character.find_or_create_by(name: params[:name])
+         params[:abilities].each do |ability_name|
+           if ability_name != ""
+             @ability = Ability.find_or_create_by(name: ability_name)
+             @character.abilities << @ability
+           end
+         end
       else
-        flash[:message] = ">>Please fill out all fields<<"
+        flash[:message] = ">>Please fill out all fields (at least one ability is needed)<<"
         redirect "/characters/new"
       end
-      if !Character.find_by(params)
+      if !current_user.characters.include?(@character.name)
         current_user.characters << @character
         @character.save
       else
@@ -58,10 +64,20 @@ class CharacterController < ApplicationController
         @character.name = params[:name]
         @character.save
       end
-      if params[:ability] != ""
-        @character.ability = params[:ability]
+      if !params[:ability_ids]
+        @character.abilities = []
+      else
+        @character.ability_ids = params[:ability_ids]
         @character.save
       end
+      if params[:abilities].any? {|x| x != ""}
+        params[:abilities].each do |ability_name|
+          if ability_name != ""
+            @ability = Ability.find_or_create_by(name: ability_name)
+            @character.abilities << @ability
+          end
+        end
+      end 
       redirect "/characters/index"
     else
       redirect "/users/login"
