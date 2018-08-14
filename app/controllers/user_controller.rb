@@ -6,7 +6,7 @@ class UserController < ApplicationController
 
   post '/new' do
     if User.find_by(username: params[:username])
-      flash[:message] = "Username is already taken. Please choose another Username."
+      flash[:message] = ">>Username is already taken. Please choose another Username<<"
       redirect "/users/new"
     else
       @user = User.new(params)
@@ -16,7 +16,7 @@ class UserController < ApplicationController
       session[:user_id] = @user.id
       redirect "/users/#{@user.id}"
     else
-      flash[:message] = "Hmm, something isn't adding up. Please try again."
+      flash[:message] = ">>Hmm, something isn't adding up. Please try again<<"
       redirect "/users/new"
     end
   end
