@@ -1,0 +1,12 @@
+<h1>Create New Account:</h1>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<form action="/new" method="post">
+  <p>Username: <input type="text" name="username"></p>
+  <p>Email: <input type="text" name="email"></p>
+  <p>Password: <input type="text" name="password"></p>
+  <input type="submit" value="Create Account">
+</form>
