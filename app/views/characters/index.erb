@@ -5,7 +5,6 @@
 <ol>
   <%@user.characters.each do |char| %>
   <li><%=char.name%> - <a href="/characters/edit/<%=char.id%>">Edit</a></l>
-
       <%char.abilities.each do |ability|%>
       <ul>
       <li><%=ability.name%></li>
