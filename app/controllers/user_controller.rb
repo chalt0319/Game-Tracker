@@ -1,14 +1,12 @@
 class UserController < ApplicationController
 
   get '/users/new' do
-    @message = session[:message]
-    session[:message] = nil
     erb :'/users/new'
   end
 
   post '/new' do
     if User.find_by(username: params[:username])
-      session[:message] = ">>Username is already taken. Please choose another Username<<"
+      flash[:message] = ">>Username is already taken. Please choose another Username<<"
       redirect "/users/new"
     else
       @user = User.new(params)
@@ -18,7 +16,7 @@ class UserController < ApplicationController
       session[:user_id] = @user.id
       redirect "/users/#{@user.id}"
     else
-      session[:message] = ">>Hmm, something isn't adding up. Please try again<<"
+      flash[:message] = ">>Hmm, something isn't adding up. Please try again<<"
       redirect "/users/new"
     end
   end
@@ -39,7 +37,7 @@ class UserController < ApplicationController
       session[:user_id] = @user.id
       redirect "/users/#{current_user.id}"
     else
-      session[:message] = ">>Username and Password do not match<<"
+      flash[:message] = ">>Username and Password do not match<<"
       redirect "/users/login"
     end
   end

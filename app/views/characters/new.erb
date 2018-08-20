@@ -1,8 +1,6 @@
 <h1>Create New Character: </h1>
 
-<% if flash.has?(:message) %>
-  <%= flash[:message] %>
-<% end %>
+
 
 <form action="/games/<%=@game.id%>/characters" method="post">
   <p>Name: <input type="text" name="name"></p>

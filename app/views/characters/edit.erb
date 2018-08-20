@@ -1,8 +1,5 @@
 <h1>Edit Character: <%=@character.name%></h1>
 
-<% if flash.has?(:message) %>
-  <%= flash[:message] %>
-<% end %>
 
 <h3>Please fill in what you would like to change:</h3>
 <form action="/games/<%=@character.game_id%>/characters/<%=@character.id%>" method="post">

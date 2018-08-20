@@ -1,8 +1,6 @@
 <h1>Welcome, <%=@user.username%>!</h1>
 
-<% if flash.has?(:message) %>
-  <%= flash[:message] %>
-<% end %>
+
 
 <%if !@user.games.empty?%>
   <%@user.games.each do |game| %>

@@ -1,8 +1,6 @@
 <h1>Edit Game: <%=@game.name%></h1>
 
-<% if flash.has?(:message) %>
-  <%= flash[:message] %>
-<% end %>
+
 
 <form action="/games/<%=@game.id%>" method="post">
   <p>Name: <input type="text" name="name"></p>
