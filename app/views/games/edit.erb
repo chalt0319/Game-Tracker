@@ -1,0 +1,17 @@
+<h1>Edit Game: <%=@game.name%></h1>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<form action="/games/edit/<%=@game.id%>" method="post">
+  <p>Name: <input type="text" name="name"></p>
+  <input type="submit" value="Edit Game">
+</form>
+<br>
+<form method="post" action="/games/delete/<%=@game.id%>">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete">
+</form>
+<br>
+<a href="/users/<%=@user.id%>">Homepage</a>

@@ -1,14 +1,5 @@
 class CharacterController < ApplicationController
 
-  get '/characters/index' do
-    if logged_in?
-      @user = current_user
-      erb :'/characters/index'
-    else
-      redirect "/users/login"
-    end
-  end
-
   get '/characters/new/:id' do
     if logged_in?
       @game = Game.find(params[:id])
@@ -36,22 +27,23 @@ class CharacterController < ApplicationController
          @character.save
        else
          flash[:message] = ">>Character already exists<<"
-         redirect "/characters/new/<%=@game.id%>"
+         redirect "/characters/new/#{@game.id}"
        end
       else
         flash[:message] = ">>Please fill out all fields (at least one ability is needed)<<"
-        redirect "/characters/new/<%=@game.id%>"
+        redirect "/characters/new/#{@game.id}"
       end
-      redirect "/characters/index"
+      redirect "/games/#{@game.id}"
     else
       redirect "/users/login"
     end
   end
 
-  get '/characters/edit/:id' do
+  get '/characters/edit/:id/:game_id' do
     if logged_in?
       @character = Character.find(params[:id])
-      if @character.user_id == current_user.id
+      @game = Game.find(params[:game_id])
+      if @character.game_id == @game.id
         erb :'/characters/edit'
       else
         redirect "/users/login"
@@ -61,9 +53,10 @@ class CharacterController < ApplicationController
     end
   end
 
-  post '/characters/edit/:id' do
+  post '/characters/edit/:id/:game_id' do
     if logged_in?
       @character = Character.find(params[:id])
+      @game = Game.find(params[:game_id])
       if params[:name] != ""
         @character.name = params[:name]
         @character.save
@@ -82,17 +75,18 @@ class CharacterController < ApplicationController
           end
         end
       end
-      redirect "/characters/index"
+      redirect "/games/#{@game.id}"
     else
       redirect "/users/login"
     end
   end
 
-  delete '/characters/delete/:id' do
+  delete '/characters/delete/:id/:game_id' do
     if logged_in?
+      @game = Game.find(params[:game_id])
       @character = Character.find(params[:id])
       @character.delete
-      redirect "/characters/index"
+      redirect "/games/#{@game.id}"
     else
       redirect "/users/login"
     end

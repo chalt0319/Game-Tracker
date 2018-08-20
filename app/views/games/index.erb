@@ -2,5 +2,22 @@
 
 <h2>Welcome to your <%=@game.name%> Page. Your characters are below: </h2>
 
+<%if !@game.characters.empty?%>
+<ol>
+  <%@game.characters.each do |char| %>
+  <li><%=char.name%> - <a href="/characters/edit/<%=char.id%>/<%=char.game_id%>">Edit</a></l>
+      <%char.abilities.each do |ability|%>
+      <ul>
+      <li><%=ability.name%></li>
+      </ul>
+      <%end%>
+
+  <%end%>
+</ol>
+<%else%>
+<p>Hmm, you don't seem to have any characters yet.</p>
+<%end%>
 
 <a href="/characters/new/<%=@game.id%>">Create New Character</a><br>
+<a href="/users/<%=@user.id%>">Home Page</a><br>
+<a href="/users/logout">Logout</a>
