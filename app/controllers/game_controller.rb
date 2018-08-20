@@ -1,6 +1,7 @@
 class GameController < ApplicationController
 
   get '/games/new' do
+    @user = current_user
     erb :'/games/new'
   end
 
