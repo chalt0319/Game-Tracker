@@ -9,18 +9,20 @@ class CharacterController < ApplicationController
     end
   end
 
-  get '/characters/new' do
+  get '/characters/new/:id' do
     if logged_in?
+      @game = Game.find(params[:id])
       erb :'/characters/new'
     else
       redirect "/users/login"
     end
   end
 
-  post '/characters/new' do
+  post '/characters/new/:id' do
     if logged_in?
+      @game = Game.find(params[:id])
       if params[:name] != "" && params[:abilities].any? {|x| x != ""}
-        if !current_user.characters.find_by(name: params[:name])
+        if !@game.characters.find_by(name: params[:name])
           @character = Character.new(name: params[:name])
            params[:abilities].each do |ability_name|
              if ability_name != ""
@@ -30,15 +32,15 @@ class CharacterController < ApplicationController
               end
              end
            end
-         current_user.characters << @character
+         @game.characters << @character
          @character.save
        else
          flash[:message] = ">>Character already exists<<"
-         redirect "/characters/new"
+         redirect "/characters/new/<%=@game.id%>"
        end
       else
         flash[:message] = ">>Please fill out all fields (at least one ability is needed)<<"
-        redirect "/characters/new"
+        redirect "/characters/new/<%=@game.id%>"
       end
       redirect "/characters/index"
     else

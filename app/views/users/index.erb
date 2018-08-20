@@ -1,6 +1,9 @@
 <h1>Welcome, <%=@user.username%>!</h1>
-<h3><a href="/characters/index">Your Characters</a></h3>
 
+<%@user.games.each do |game| %>
+<h3><a href="/games/<%=game.id%>"><%=game.name%></a></h3>
+<%end%>
 <br>
-<a href="/characters/new">Create New Character</a><br>
+
+<a href="/games/new">Create New Game</a><br>
 <a href="/users/logout">Logout</a>

@@ -4,7 +4,7 @@
   <%= flash[:message] %>
 <% end %>
 
-<form action="/characters/new" method="post">
+<form action="/characters/new/<%=@game.id%>" method="post">
   <p>Name: <input type="text" name="name"></p>
   <p>Ability: <input type="text" name="abilities[]"></p>
   <p>Optional additional abilities:</p>
