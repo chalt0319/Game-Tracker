@@ -60,7 +60,7 @@ class GameController < ApplicationController
     erb :'/games/index'
   end
 
-  delete '/games/:id' do
+  delete '/games/:id/delete' do
     if logged_in?
       @game = Game.find(params[:id])
       @game.delete

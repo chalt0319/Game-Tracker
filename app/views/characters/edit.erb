@@ -15,7 +15,7 @@
   <input type="submit" value="Edit Character">
 </form>
 <br>
-<form method="post" action="/games/<%=@character.game_id%>/characters/<%=@character.id%>">
+<form method="post" action="/games/<%=@character.game_id%>/characters/<%=@character.id%>/delete">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete">
 </form>
