@@ -4,12 +4,12 @@
   <%= flash[:message] %>
 <% end %>
 
-<form action="/games/edit/<%=@game.id%>" method="post">
+<form action="/games/<%=@game.id%>" method="post">
   <p>Name: <input type="text" name="name"></p>
   <input type="submit" value="Edit Game">
 </form>
 <br>
-<form method="post" action="/games/delete/<%=@game.id%>">
+<form method="post" action="/games/<%=@game.id%>">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete">
 </form>

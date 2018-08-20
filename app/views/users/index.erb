@@ -1,8 +1,12 @@
 <h1>Welcome, <%=@user.username%>!</h1>
 
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
 <%if !@user.games.empty?%>
   <%@user.games.each do |game| %>
-  <h3><a href="/games/<%=game.id%>"><%=game.name%></a> - <a href="/games/edit/<%=game.id%>">Edit</a> </h3>
+  <h3><a href="/games/<%=game.id%>"><%=game.name%></a> - <a href="/games/<%=game.id%>/edit">Edit</a> </h3>
   <%end%>
 <%else%>
   <h3>You currently don't have any games.</h3>

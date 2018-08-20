@@ -1,6 +1,6 @@
 class CharacterController < ApplicationController
 
-  get '/characters/new/:id' do
+  get '/games/:id/characters/new' do # /characters/new/:id
     if logged_in?
       @game = Game.find(params[:id])
       erb :'/characters/new'
@@ -9,8 +9,8 @@ class CharacterController < ApplicationController
     end
   end
 
-  post '/characters/new/:id' do
-    if logged_in?
+  post '/games/:id/characters' do # /characters/new/:id
+    if logged_in? # redirect_if_not_logged_in
       @game = Game.find(params[:id])
       if params[:name] != "" && params[:abilities].any? {|x| x != ""}
         if !@game.characters.find_by(name: params[:name])
@@ -27,11 +27,11 @@ class CharacterController < ApplicationController
          @character.save
        else
          flash[:message] = ">>Character already exists<<"
-         redirect "/characters/new/#{@game.id}"
+         redirect "/games/#{@game.id}/characters/new"
        end
       else
         flash[:message] = ">>Please fill out all fields (at least one ability is needed)<<"
-        redirect "/characters/new/#{@game.id}"
+        redirect "/games/#{@game.id}/characters/new"
       end
       redirect "/games/#{@game.id}"
     else
@@ -39,7 +39,7 @@ class CharacterController < ApplicationController
     end
   end
 
-  get '/characters/edit/:id/:game_id' do
+  get '/games/:game_id/characters/:id/edit' do # /characters/edit/:id/:game_id
     if logged_in?
       @character = Character.find(params[:id])
       @game = Game.find(params[:game_id])
@@ -53,7 +53,7 @@ class CharacterController < ApplicationController
     end
   end
 
-  post '/characters/edit/:id/:game_id' do
+  post '/games/:game_id/characters/:id' do # /characters/edit/:id/:game_id
     if logged_in?
       @character = Character.find(params[:id])
       @game = Game.find(params[:game_id])
@@ -81,7 +81,7 @@ class CharacterController < ApplicationController
     end
   end
 
-  delete '/characters/delete/:id/:game_id' do
+  delete '/games/:game_id/characters/:id' do # /characters/delete/:id/:game_id
     if logged_in?
       @game = Game.find(params[:game_id])
       @character = Character.find(params[:id])
