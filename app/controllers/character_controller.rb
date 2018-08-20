@@ -49,7 +49,7 @@ class CharacterController < ApplicationController
   get '/characters/edit/:id' do
     if logged_in?
       @character = Character.find(params[:id])
-      if @character.user_id.to_i == current_user.id
+      if @character.user_id == current_user.id
         erb :'/characters/edit'
       else
         redirect "/users/login"
