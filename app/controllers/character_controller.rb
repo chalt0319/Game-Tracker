@@ -81,7 +81,7 @@ class CharacterController < ApplicationController
     end
   end
 
-  delete '/games/:game_id/characters/:id/delete' do # /characters/delete/:id/:game_id
+  delete '/games/:game_id/characters/:id' do # /characters/delete/:id/:game_id
     if logged_in?
       @game = Game.find(params[:game_id])
       @character = Character.find(params[:id])
